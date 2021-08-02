@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
+    <link href="{% static 'assets/css/themes/lite-purple.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/plugins/perfect-scrollbar.min.css' %}" rel="stylesheet" />
+{% endblock css %}
+{% block content %}
+
+    <!-- ============ Body content start ============= -->
+    <div class="main-content">
+        <div class="breadcrumb">
+            <h1>{{ title }}</h1>
+            <ul>
+                <li>Form</li>
+            </ul>
+        </div>
+        <div class="separator-breadcrumb border-top"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form id="menu_form" method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-3 form-group mb-3">
+                                    <label>Category</label>
+                                    {{ form.category }}
+                                </div>
+                                <div class="col-md-3 form-group mb-3">
+                                    <label>Menu</label>
+                                    {{ form.menu }}
+                                </div>
+                                <div class="col-md-3 form-group mb-3">
+                                    <label>Size</label>
+                                    {{ form.size }}
+                                </div>
+                                <div class="col-md-3 form-group mb-3">
+                                    <label>Quantity</label>
+                                    {{ form.quantity }}
+                                </div>
+                                <div class="col-md-12">
+                                    <button id="add_item" class="btn btn-primary float-right" type="button">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="zero_configuration_table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="order_item_list">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Total Bill</th>
+                                    <th scope="col"></th>
+                                    <th scope="col" id="total_bill"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col">
+                                        <button id="btn_commit" class="btn btn-primary" type="button">Commit</button>
+                                    </th>
+                                    <th scope="col">
+                                        <button id="btn_complete" class="btn btn-primary" type="button">Complete</button>
+                                    </th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end of main-content -->
+{% endblock content %}
+
+
+{% block js %}
+    <!-- Required Jquery -->
+    <script  src="{% static 'files/bower_components/jquery/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/script.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/sidebar.large.script.min.js' %}"></script>
+
+    <script>
+        $(function(){
+            // start page
+
+            var id_order = "{{ id_order }}";
+
+            $("#id_category").change(function () {
+                get_menu_dd();
+                get_size_dd();
+                $("#id_quantity").val('1');
+
+            });
+
+            function get_menu_dd() {
+                let id_category = $("#id_category").val();
+                let menu = $('#id_menu');
+                menu.empty();
+                menu.append("<option value=''>---------</option>");
+
+                $.ajax({
+                    url: base_url+'menu/get_menu_dd',
+                    method:'post',
+                    type:'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'id_category': id_category
+                    },
+                    success: function (data) {
+                        var obj_list = data['obj_list'];
+                        var i;
+                        for(i=0; i<obj_list.length; i++){
+                            menu.append("<option value='" +obj_list[i][0]+ "'>" +obj_list[i][1]+ "</option>");
+                        }
+                    }
+                });
+
+            }
+
+            function get_size_dd() {
+                let id_category = $("#id_category").val();
+                let size = $('#id_size');
+                size.empty();
+
+                $.ajax({
+                    url: base_url+'menu/get_size_dd',
+                    method:'post',
+                    type:'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'id_category': id_category
+                    },
+                    success: function (data) {
+                        let obj_list = data['obj_list'];
+                        let i;
+                        for(i=0; i<obj_list.length; i++){
+                            size.append("<option value='" +obj_list[i][0]+ "'>" +obj_list[i][1]+ "</option>");
+                        }
+                    }
+                });
+
+            }
+
+            $("#add_item").click(function() {
+                let id_category = $('#id_category').val();
+                let id_menu = $('#id_menu').val();
+                let id_size = $('#id_size').val();
+                let quantity = $('#id_quantity').val();
+
+                if(id_category == '') return ;
+                if(id_menu == '') return ;
+                if(id_size == '') return ;
+                if(quantity == '0') return ;
+
+                $.ajax({
+                    url: base_url+'order/add_temp_order_item',
+                    method:'POST',
+                    type: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'id_category': id_category,
+                        'id_menu': id_menu,
+                        'id_size': id_size,
+                        'quantity': quantity,
+                        'id_order':id_order
+                    },
+                    success: function (data) {
+                        if(data['success']==true){
+                            get_table_order_items();
+                            $('#menu_form').trigger("reset");
+                        }
+                    },
+                    error:function () {
+                        alert('error');
+                    }
+                });
+            });
+
+            get_table_order_items();
+            function get_table_order_items() {
+                $.ajax({
+                    type: 'ajax',
+                    url: base_url + 'order/get_temp_order_items',
+                    method: 'GET',
+                    dataType: 'json',
+                    data:{
+                        'id_order':id_order
+                    },
+                    success: function (data) {
+                        let trs = '';
+                        let total_bill = 0;
+                        for (let i = 0; i < data.length; i++) {
+                            let id = data[i]["id"];
+                            let category = data[i]["category"];
+                            let menu = data[i]["menu"];
+                            let quantity = data[i]["quantity"];
+                            let total = data[i]["total"];
+                            let commit = data[i]["commit"];
+                            total_bill +=total;
+
+                            trs += '<tr>';
+                            trs += '<th scope="row">' + (parseInt(i) + 1) + '</th>';
+                            trs += '<td>' + category +' - '+ menu + '</td>';
+                            trs += '<td>' + quantity + '</td>';
+                            trs += '<td>' + total + '</td>';
+                            trs += '<td>';
+                            if(commit == false){
+                                trs += '<a class="text-danger mr-2 item_delete" href="javascript:;" item_id="'+id+'"><i class="nav-icon i-Close-Window font-weight-bold"></i></a>' ;
+                                trs += '<a class="text-danger mr-2" href="javascript:;"><i class="nav-icon i-Right font-weight-bold"></i></a>' ;
+                            }
+                            trs += '</td>';
+                            trs += '</tr>';
+                        }
+                        $('#order_item_list').html(trs);
+                        $('#total_bill').html(total_bill);
+
+
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                });
+            }
+
+            $('#order_item_list').on('click', '.item_delete', function(){
+                let id = ($(this).attr('item_id')).toString();
+                $.ajax({
+                    type: 'ajax',
+                    url: base_url+'order/remove_temp_order_item',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'id':id
+                    },
+                    success: function(data){
+                        get_table_order_items();
+                        $('#menu_form').trigger("reset");
+                    },
+                    error: function(){
+                        alert('error remove');
+                    }
+                });
+            });
+
+            $("#btn_commit").click(function(){
+                if(confirm("Are you sure to commit this?")){
+                $.ajax({
+                    type: 'ajax',
+                    url: base_url+'order/commit_temp_order_items',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'id_order':id_order
+                    },
+                    success: function(data){
+                        get_table_order_items();
+                        $('#menu_form').trigger("reset");
+                    },
+                    error: function(){
+                        alert('error remove');
+                    }
+                });
+                }
+                else{
+                    return false;
+                }
+            });
+
+            $("#btn_complete").click(function(){
+                if(confirm("Are you sure to complete Order # "+id_order)){
+                    window.location.href= base_url+'order/'+id_order+'/complete';
+                }
+                else{
+                    return false;
+                }
+            });
+
+
+            //end page
+        });
+    </script>
+
+{% endblock js %}

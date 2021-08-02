@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block css %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
+    <link href="{% static 'assets/css/themes/lite-purple.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/plugins/perfect-scrollbar.min.css' %}" rel="stylesheet" />
+{% endblock css %}
+{% block content %}
+    <div class="main-content">
+        <div class="breadcrumb">
+            <h1 class="mr-2">Version 2</h1>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li>Version 2</li>
+            </ul>
+        </div>
+        <div class="separator-breadcrumb border-top"></div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <!-- CARD ICON-->
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card card-icon mb-4">
+                            <div class="card-body text-center"><i class="i-Lock-User"></i>
+                                <p class="text-muted mt-2 mb-2">Staff</p>
+                                <p class="text-primary text-24 line-height-1 m-0">{{ staff }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card card-icon mb-4">
+                            <div class="card-body text-center"><i class="i-Add-User"></i>
+                                <p class="text-muted mt-2 mb-2">Customers</p>
+                                <p class="text-primary text-24 line-height-1 m-0">{{ customers }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card card-icon mb-4">
+                            <div class="card-body text-center"><i class="i-Money-2"></i>
+                                <p class="text-muted mt-2 mb-2">Total sales</p>
+                                <p class="text-primary text-24 line-height-1 m-0">4021</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card card-icon-big mb-4">
+                            <div class="card-body text-center"><i class="i-Hand"></i>
+                                <p class="text-muted mt-2 mb-2">Service</p>
+                                <p class="text-primary text-24 line-height-1 m-0">{{ service }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card card-icon-big mb-4">
+                            <div class="card-body text-center"><i class="i-Bag-Items"></i>
+                                <p class="text-muted mt-2 mb-2">Take Away</p>
+                                <p class="text-primary text-24 line-height-1 m-0">{{ takeaway }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card card-icon-big mb-4">
+                            <div class="card-body text-center"><i class="i-Bicycle"></i>
+                                <p class="text-muted mt-2 mb-2">Delivery</p>
+                                <p class="text-primary text-24 line-height-1 m-0">{{ delivery }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="card mb-4">
+                    <div class="card-body p-0">
+                        <h5 class="card-title m-0 p-3">Sales</h5>
+                        <div id="echart4" style="height: 300px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of row-->
+        <!-- end of main-content -->
+    </div>
+{% endblock content %}
+{% block js %}
+    <script src="{% static 'assets/js/plugins/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/script.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/sidebar.large.script.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/echarts.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/echart.options.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/datatables.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/dashboard.v2.script.min.js' %}"></script>
+{% endblock js %}

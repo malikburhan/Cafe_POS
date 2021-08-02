@@ -1,0 +1,22 @@
+{% load static %}
+
+<div class="side-content-wrap">
+    <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
+        <ul class="navigation-left">
+            <li class="nav-item" ><a class="nav-item-hold" href="/"><i class="nav-icon i-Bar-Chart"></i><span class="nav-text">Dashboard</span></a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item" data-item="order"><a class="nav-item-hold" href="#"><i class="nav-icon i-Cart-Quantity"></i><span class="nav-text">Order</span></a>
+                <div class="triangle"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="sidebar-left-secondary rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
+        <ul class="childNav" data-parent="order">
+            <li class="nav-item"><a href="{% url 'order:list' %}"><i class="nav-icon i-Notepad-2"></i><span class="item-name">All Order</span></a></li>
+            <li class="nav-item"><a href="{% url 'order:table' %}"><i class="nav-icon i-Chef"></i><span class="item-name">All Tables</span></a></li>
+        </ul>
+    </div>
+    <div class="sidebar-overlay"></div>
+</div>
+<!-- =============== Left side End ================-->

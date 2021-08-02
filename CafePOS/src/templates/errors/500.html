@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
+    <link href="{% static 'assets/css/themes/lite-purple.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/plugins/perfect-scrollbar.min.css' %}" rel="stylesheet" />
+{% endblock css %}
+{% block content %}
+
+    <!-- ============ Body content start ============= -->
+    <div class="main-content">
+        <div class="breadcrumb">
+            <h1>User Profile</h1>
+            <ul>
+                <li>User Profile</li>
+            </ul>
+        </div>
+        <div class="separator-breadcrumb border-top"></div>
+        <div class="card user-profile o-hidden mb-4">
+            <div class="header-cover" style="background-image: url('{% static "assets/images/photo-wide-4.jpg" %}')"></div>
+            <div class="user-info"><img class="profile-picture avatar-lg mb-2" src="{% static 'assets/images/faces/1.jpg' %}" alt="" />
+                <p class="m-0 text-24">{{ profile.user.first_name }}</p>
+                <p class="text-muted m-0">{{ profile.roll }}</p>
+            </div>
+            <div class="card-body">
+                <h4>Personal Information</h4>
+                <hr />
+                <div class="row">
+                    <div class="col-md-4 col-6">
+                        <div class="mb-4">
+                            <p class="text-primary mb-1"><i class="i-Calendar text-16 mr-1"></i> Joining Date</p><span>{{ profile.doj }}</span>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-primary mb-1"><i class="i-ID-Card text-16 mr-1"></i> CNIC</p><span>{{ profile.cnic }}</span>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-primary mb-1"><i class="i-Telephone text-16 mr-1"></i> Mobile 1</p><span>{{ profile.mobile1 }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6">
+                        <div class="mb-4">
+                            <p class="text-primary mb-1"><i class="i-MaleFemale text-16 mr-1"></i> Username</p><span>{{ profile.user.username}}</span>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-primary mb-1"><i class="i-Email text-16 mr-1"></i> Email</p><span>{{ profile.user.email }}</span>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-primary mb-1"><i class="i-Telephone-2 text-16 mr-1"></i> Mobile2 </p><span>{{ profile.mobile2 }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6">
+                        <div class="mb-4">
+                            <p class="text-primary mb-1"><i class="i-MaleFemale text-16 mr-1"></i> Gender</p><span>{{ profile.gender}}</span>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-primary mb-1"><i class="i-Professor text-16 mr-1"></i> Birth Date</p><span>{{ profile.dob }}</span>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-primary mb-1"><i class="i-Home1 text-16 mr-1"></i> Address</p><span>{{ profile.address }}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div><!-- end of main-content -->
+    </div>
+
+{% endblock content %}
+
+
+{% block js %}
+
+    <script src="{% static 'assets/js/plugins/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/script.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/sidebar.large.script.min.js' %}"></script>
+
+    <script>
+        $(function () {
+
+        });
+    </script>
+{% endblock js %}

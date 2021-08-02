@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
+    <link href="{% static 'assets/css/themes/lite-purple.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/plugins/perfect-scrollbar.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/datatables.min.css' %}" />
+{% endblock css %}
+
+{% block content %}
+
+    <!-- ============ Body content start ============= -->
+    <div class="main-content">
+        <div class="breadcrumb">
+            <h1>{{ title }}</h1>
+            <ul>
+                <li>List</li>
+            </ul>
+        </div>
+        <div class="separator-breadcrumb border-top"></div>
+        <div class="row mb-4">
+            <div class="col-md-12 mb-3">
+                <div class="card text-left">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="zero_configuration_table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Menu</th>
+                                    <th scope="col">Created</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for menu in list %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ menu.category }}</td>
+                                        <td>{{ menu.name }}</td>
+                                        <td>{{ menu.created }}</td>
+                                        <td>
+                                            <a class="text-success mr-2" href="{% url 'menu:menu_edit' menu.id %}"><i class="nav-icon i-Pen-2 font-weight-bold"></i></a>
+                                            <a class="text-danger mr-2" href="{% url 'menu:menu_delete' menu.id %}"><i class="nav-icon i-Close-Window font-weight-bold"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end of col-->
+        </div>
+        <!-- end of main-content -->
+    </div>
+
+{% endblock content %}
+
+
+{% block js %}
+    <script src="{% static 'assets/js/plugins/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/script.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/sidebar.large.script.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/datatables.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/datatables.script.min.js' %}"></script>
+
+    <script>
+        $(function(){
+
+        });
+    </script>
+
+{% endblock js %}

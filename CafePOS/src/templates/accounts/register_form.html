@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
+    <link href="{% static 'assets/css/themes/lite-purple.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/plugins/perfect-scrollbar.min.css' %}" rel="stylesheet" />
+{% endblock css %}
+{% block content %}
+
+    <!-- ============ Body content start ============= -->
+    <div class="main-content">
+        <div class="breadcrumb">
+            <h1>{{ title }}</h1>
+            <ul>
+                <li>Form</li>
+            </ul>
+        </div>
+        <div class="separator-breadcrumb border-top"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4 form-group mb-3">
+                                    <label>Name</label>
+                                    {{ register_form.first_name }}
+                                </div>
+                                <div class="col-md-4 form-group mb-3">
+                                    <label>Email</label>
+                                    {{ register_form.email }}
+                                </div>
+                                <div class="col-md-4 form-group mb-3">
+                                    <label>Username</label>
+                                    {{ register_form.username }}
+                                </div>
+                                <div class="col-md-4 form-group mb-3">
+                                    <label>Password <small>(User@1234)</small></label>
+                                    {{ register_form.password1 }}
+                                </div>
+                                <div class="col-md-4 form-group mb-3">
+                                    <label>Re-Password <small>(User@1234)</small></label>
+                                    {{ register_form.password2 }}
+                                </div>
+                                <div class="col-md-1 form-group mb-3">
+                                    <label>Status</label>
+                                    <div class="form-check">
+                                        {{ register_form.is_active }}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary float-right">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end of main-content -->
+{% endblock content %}
+
+
+{% block js %}
+    <!-- Required Jquery -->
+    <script  src="{% static 'files/bower_components/jquery/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/script.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/sidebar.large.script.min.js' %}"></script>
+
+    <script>
+        $(function(){
+            $('#id_dob').prop('type','date');
+            $('#id_doj').prop('type','date');
+        });
+    </script>
+
+{% endblock js %}

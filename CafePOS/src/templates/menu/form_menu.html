@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
+    <link href="{% static 'assets/css/themes/lite-purple.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/plugins/perfect-scrollbar.min.css' %}" rel="stylesheet" />
+{% endblock css %}
+{% block content %}
+
+    <!-- ============ Body content start ============= -->
+    <div class="main-content">
+        <div class="breadcrumb">
+            <h1>{{ title }}</h1>
+            <ul>
+                <li>Form</li>
+            </ul>
+        </div>
+        <div class="separator-breadcrumb border-top"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4 form-group mb-3">
+                                    <label>Category</label>
+                                    {{ form.category }}
+                                </div>
+                                <div class="col-md-4 form-group mb-3">
+                                    <label>Menu</label>
+                                    {{ form.name }}
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end of main-content -->
+{% endblock content %}
+
+
+{% block js %}
+    <!-- Required Jquery -->
+    <script  src="{% static 'files/bower_components/jquery/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/script.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/sidebar.large.script.min.js' %}"></script>
+
+    <script>
+        $(function(){
+
+        });
+    </script>
+
+{% endblock js %}

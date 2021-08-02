@@ -1,0 +1,49 @@
+{% load static %}
+
+<div class="side-content-wrap">
+    <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
+        <ul class="navigation-left">
+            <li class="nav-item" ><a class="nav-item-hold" href="/"><i class="nav-icon i-Bar-Chart"></i><span class="nav-text">Dashboard</span></a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item" data-item="user"><a class="nav-item-hold" href="#"><i class="nav-icon i-Lock-User"></i><span class="nav-text">Accounts</span></a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item" data-item="customer"><a class="nav-item-hold" href="#"><i class="nav-icon i-Checked-User"></i><span class="nav-text">Customer</span></a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item" data-item="menu"><a class="nav-item-hold" href="#"><i class="nav-icon i-Add-Cart"></i><span class="nav-text">Menu</span></a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item" data-item="order"><a class="nav-item-hold" href="#"><i class="nav-icon i-Cart-Quantity"></i><span class="nav-text">Order</span></a>
+                <div class="triangle"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="sidebar-left-secondary rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
+        <ul class="childNav" data-parent="customer">
+            <li class="nav-item"><a href="{% url 'customer:list' %}"><i class="nav-icon i-Notepad-2"></i><span class="item-name">All Customer</span></a></li>
+            <li class="nav-item"><a href="{% url 'customer:add' %}"><i class="nav-icon i-Add-User"></i><span class="item-name">Add Customer</span></a></li>
+        </ul>
+        <ul class="childNav" data-parent="user">
+            <li class="nav-item"><a href="{% url 'accounts:list' %}"><i class="nav-icon i-Notepad-2"></i><span class="item-name">All Accounts</span></a></li>
+            <li class="nav-item"><a href="{% url 'accounts:register' %}"><i class="nav-icon i-Add-User"></i><span class="item-name">Register</span></a></li>
+        </ul>
+        <ul class="childNav" data-parent="menu">
+            <li class="nav-item"><a href="{% url 'menu:menu_category_list' %}"><i class="nav-icon i-Notepad-2"></i><span class="item-name">All Categories</span></a></li>
+            <li class="nav-item"><a href="{% url 'menu:menu_category_add' %}"><i class="nav-icon i-Sand-watch"></i><span class="item-name">Add Category</span></a></li>
+            <li class="nav-item"><a href="{% url 'menu:menu_list' %}"><i class="nav-icon i-Hand"></i><span class="item-name">All Menu</span></a></li>
+            <li class="nav-item"><a href="{% url 'menu:menu_add' %}"><i class="nav-icon i-Motorcycle"></i><span class="item-name">Add Menu</span></a></li>
+
+        </ul>
+        <ul class="childNav" data-parent="order">
+            <li class="nav-item"><a href="{% url 'order:list' %}"><i class="nav-icon i-Notepad-2"></i><span class="item-name">All Order</span></a></li>
+            <li class="nav-item"><a href="{% url 'order:service_table' %}"><i class="nav-icon i-Sand-watch"></i><span class="item-name">Service</span></a></li>
+            <li class="nav-item"><a href="{% url 'order:takeaway_customer' %}"><i class="nav-icon i-Hand"></i><span class="item-name">Take Away</span></a></li>
+            <li class="nav-item"><a href="{% url 'order:delivery_customer' %}"><i class="nav-icon i-Motorcycle"></i><span class="item-name">Delivery</span></a></li>
+
+        </ul>
+    </div>
+    <div class="sidebar-overlay"></div>
+</div>
+<!-- =============== Left side End ================-->

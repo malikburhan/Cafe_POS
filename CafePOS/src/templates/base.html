@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{{ title }} | Hospital</title>
+
+    <link rel="icon" href="{% static 'assets/images/logo.png' %}" type="image/x-icon"/>
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/toastr.css' %}" />
+
+
+    <script type="text/javascript">
+        base_url = '{{ HTTP_HOST }}/';
+        image_url = '{{ HTTP_HOST }}/media/';
+    </script>
+    {% block css  %}{% endblock css %}
+</head>
+
+<body class="text-left">
+<div class="app-admin-wrap layout-sidebar-large">
+    {% include 'layout/header.html' %}
+
+    {% if request.user.userprofile.roll == 'Admin' %}
+        {% include 'layout/left_sidebar_for_admin.html' %}
+
+    {% elif request.user.userprofile.roll == 'Manager' %}
+        {% include 'layout/left_sidebar_for_manager.html' %}
+
+    {% elif request.user.userprofile.roll == 'Order Taker' %}
+        {% include 'layout/left_sidebar_for_order_taker.html' %}
+
+    {% elif request.user.userprofile.roll == 'Sheff' %}
+        {% include 'layout/left_sidebar_for_sheff.html' %}
+
+    {% endif %}
+
+    <div class="main-content-wrap sidenav-open d-flex flex-column">
+        <!-- ============ Body content start ============= -->
+        {% block content %}{% endblock content %}
+        <!-- Footer Start -->
+        {% include 'layout/footer.html' %}
+        <!-- fotter end -->
+    </div>
+</div>
+
+{% block js %}{% endblock js %}
+<script src="{% static 'assets/js/plugins/toastr.min.js' %}"></script>
+<script>
+    {% if messages %}
+        {% for message in messages %}
+            toastr.{{ message.tags }}("{{ message }}", "Notification", {
+                showMethod: "slideDown",
+                hideMethod: "slideUp",
+                timeOut: 3000
+            });
+        {% endfor %}
+    {% endif %}
+</script>
+
+</body>
+</html>

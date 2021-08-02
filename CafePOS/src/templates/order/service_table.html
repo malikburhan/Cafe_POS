@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
+    <link href="{% static 'assets/css/themes/lite-purple.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/plugins/perfect-scrollbar.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/datatables.min.css' %}" />
+{% endblock css %}
+
+{% block content %}
+
+    <!-- ============ Body content start ============= -->
+    <div class="main-content">
+        <div class="breadcrumb">
+            <h1>{{ title }}</h1>
+            <ul>
+                <li>List</li>
+            </ul>
+        </div>
+        <div class="separator-breadcrumb border-top"></div>
+        <div class="row mb-4">
+            <div class="col-md-12 mb-3">
+                <div class="card text-left">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="zero_configuration_table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">Staff</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for table in list %}
+                                    {#                                    {% if table.is_reserved == True %}#}
+                                    {#                                        <tr style="background-color: lightcoral; color: white;">#}
+                                    {#                                            {% else %}#}
+                                    {#                                        <tr style="background-color: lightgreen; color: white;">#}
+                                    {#                                    {% endif %}#}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ table.number }}</td>
+                                        {% if table.is_reserved == True %}
+                                            <td>{{ table.order.creator.userprofile.roll }}
+                                                <small>{{ table.order.creator.first_name }}</small></td>
+                                            <td>
+                                                <span class="badge badge-danger ">Reserved</span>
+                                            </td><td>
+                                            <a class="text-success mr-2" href="{% url 'order:service' table.order.id %}"><i class="nav-icon i-Pen-2 font-weight-bold"></i></a>
+                                        </td>
+                                        {% else %}
+                                            <td> _ </td>
+                                            <td>
+                                                <span class="badge badge-success">Free</span>
+                                            </td>
+                                            <td>
+                                                <a class="text-success mr-2"  href="{% url 'order:service_customer' table.id %}" ><i class="nav-icon i-Boy font-weight-bold"></i></a>
+                                            </td>
+                                        {% endif %}
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end of col-->
+        </div>
+        <!-- end of main-content -->
+    </div>
+
+    <!--  Modal -->
+    <div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="customerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Customer Info</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <form id="customer_form">
+                            <div class="d-flex flex-column">
+                                <input id="modal_id_table" name="id_table" value="0" type="hidden">
+                                <div class="form-group">
+                                    <input class="form-control" name="name" type="text" placeholder="Enter Name" />
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="mobile" type="text" placeholder="Enter Mobile" />
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="address" type="text" placeholder="Enter Address" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary ml-2" type="button" id="btn_save_customer">Save</button>
+                    <button class="btn btn-secondary ml-2" type="button" id="btn_skip_customer">Skip</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+{% block js %}
+    <script src="{% static 'assets/js/plugins/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/script.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/sidebar.large.script.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/datatables.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts/datatables.script.min.js' %}"></script>
+
+    <script>
+        $(function(){
+
+
+            $('#zero_configuration_table').on('click', '.btn_reserve_table', function(){
+                let id_table = ($(this).attr('id_table')).toString();
+                window.location.href = base_url+'order/service_customer/'+id_table;
+            });
+
+
+        });
+    </script>
+
+{% endblock js %}
