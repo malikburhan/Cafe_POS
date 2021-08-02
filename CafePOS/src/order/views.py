@@ -35,6 +35,7 @@ def order_service_table(request):
         'title': "Table",
         'list': queryset,
     }
+
     return render(request, template_name, context)
 
 
@@ -238,6 +239,7 @@ def order_complete(request, id): # order Id
             order=order_obj,
             category=temp_item.category,
             menu=temp_item.menu,
+            size=temp_item.size,
         )
         item.quantity += temp_item.quantity
         item.total += temp_item.total

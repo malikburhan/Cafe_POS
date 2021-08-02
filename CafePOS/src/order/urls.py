@@ -4,9 +4,9 @@ from . import views
 app_name = 'order'
 urlpatterns = [
     path('', views.order_list, name='list'),
-    path('service/table', views.order_service_table, name='service_table'),
+    path('service/table/', views.order_service_table, name='service_table'),
     path('service/<str:id_table>', views.order_service_customer, name='service_customer'),
-    path('<str:id>/service', views.order_service, name='service'),
+    path('<str:id>/service/', views.order_service, name='service'),
 
     path('takeaway', views.order_takeaway_customer, name='takeaway_customer'),
     path('<str:id>/takeaway', views.order_takeaway, name='takeaway'),

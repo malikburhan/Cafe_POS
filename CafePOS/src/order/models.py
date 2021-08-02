@@ -15,7 +15,7 @@ class Order(models.Model):
     ]
     ordertype = models.CharField(max_length=10, null=True, blank=True, choices=TYPE_CHOICES)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    table_number = models.IntegerField(default=0)
+    table_number = models.IntegerField(default=0, null=True, blank=True)
     complete = models.BooleanField(default=False)
     deliver_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Order.deliver_by+', null=True, blank=True)
     deliver_at = models.DateTimeField(null=True, blank=True)
@@ -62,6 +62,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
     total = models.IntegerField(default=0)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='OrderItem.creator+', null=True, blank=True)

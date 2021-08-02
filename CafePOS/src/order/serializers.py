@@ -5,6 +5,7 @@ from .models import TempOrderItem
 class TempOrderItemListSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source='category.name')
     menu = serializers.CharField(source='menu.name')
+    size = serializers.CharField(source='size.size')
 
     class Meta:
         model = TempOrderItem
