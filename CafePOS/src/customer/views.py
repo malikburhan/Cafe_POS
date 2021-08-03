@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Customer
 from .forms import CustomerForm
+from order.models import Order
 
 
 # Create your views here.
@@ -19,11 +20,13 @@ def customer_list(request):
 # showing customer profile
 def customer_profile(request, id):
     profile = Customer.objects.get(id=id)
+    orders = Order.objects.filter(customer=profile).count()
 
     template_name = 'customer/profile.html'
     context = {
         'title': "Customer",
-        'profile': profile
+        'profile': profile,
+        'orders': orders
     }
     return render(request, template_name, context)
 

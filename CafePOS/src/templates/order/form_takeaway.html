@@ -24,15 +24,19 @@
                     <div class="card-body">
                         <form id="menu_form" method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
                             <div class="row">
-                                <div class="col-md-4 form-group mb-3">
+                                <div class="col-md-3 form-group mb-3">
                                     <label>Category</label>
                                     {{ form.category }}
                                 </div>
-                                <div class="col-md-4 form-group mb-3">
+                                <div class="col-md-3 form-group mb-3">
                                     <label>Menu</label>
                                     {{ form.menu }}
                                 </div>
-                                <div class="col-md-4 form-group mb-3">
+                                <div class="col-md-3 form-group mb-3">
+                                    <label>Size</label>
+                                    {{ form.size }}
+                                </div>
+                                <div class="col-md-3 form-group mb-3">
                                     <label>Quantity</label>
                                     {{ form.quantity }}
                                 </div>
@@ -107,6 +111,7 @@
 
             $("#id_category").change(function () {
                 get_menu_dd();
+                get_size_dd();
                 $("#id_quantity").val('1');
 
             });
@@ -136,14 +141,39 @@
 
             }
 
+            function get_size_dd() {
+                let id_category = $("#id_category").val();
+                let size = $('#id_size');
+                size.empty();
+
+                $.ajax({
+                    url: base_url+'menu/get_size_dd',
+                    method:'post',
+                    type:'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'id_category': id_category
+                    },
+                    success: function (data) {
+                        let obj_list = data['obj_list'];
+                        let i;
+                        for(i=0; i<obj_list.length; i++){
+                            size.append("<option value='" +obj_list[i][0]+ "'>" +obj_list[i][1]+ "</option>");
+                        }
+                    }
+                });
+
+            }
+
             $("#add_item").click(function() {
                 let id_category = $('#id_category').val();
                 let id_menu = $('#id_menu').val();
+                let id_size = $('#id_size').val();
                 let quantity = $('#id_quantity').val();
-
 
                 if(id_category == '') return ;
                 if(id_menu == '') return ;
+                if(id_size == '') return ;
                 if(quantity == '0') return ;
 
                 $.ajax({
@@ -154,6 +184,7 @@
                         'csrfmiddlewaretoken': '{{ csrf_token }}',
                         'id_category': id_category,
                         'id_menu': id_menu,
+                        'id_size': id_size,
                         'quantity': quantity,
                         'id_order':id_order
                     },
@@ -186,6 +217,7 @@
                             let id = data[i]["id"];
                             let category = data[i]["category"];
                             let menu = data[i]["menu"];
+                            let size = data[i]["size"];
                             let quantity = data[i]["quantity"];
                             let total = data[i]["total"];
                             let commit = data[i]["commit"];
@@ -193,7 +225,7 @@
 
                             trs += '<tr>';
                             trs += '<th scope="row">' + (parseInt(i) + 1) + '</th>';
-                            trs += '<td>' + category +' - '+ menu + '</td>';
+                            trs += '<td>' + category +' - '+ menu +' - '+ size + '</td>';
                             trs += '<td>' + quantity + '</td>';
                             trs += '<td>' + total + '</td>';
                             trs += '<td>';

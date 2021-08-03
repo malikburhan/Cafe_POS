@@ -5,18 +5,19 @@ from django.shortcuts import render, redirect
 from rest_framework import generics
 
 from .forms import OrderForm
-from .models import  Order, TempOrderItem, OrderItem, Table
+from .models import Order, TempOrderItem, OrderItem, Table
 from .serializers import TempOrderItemListSerializer
 from menu.models import Menu, Price
 from customer.models import Customer
 from customer.forms import CustomerForm
+from message.models import OutBox
 
 import datetime
 
 
 # Create your views here.
 def order_list(request):
-    queryset = Order.objects.filter(is_deleted=False)
+    queryset = Order.objects.filter(is_deleted=False).order_by('complete', 'id')
 
     template_name = 'order/list.html'
     context = {
@@ -84,7 +85,7 @@ def order_service(request, id):
     context = {
         'title': "Service",
         'form': form,
-        'id_order':id
+        'id_order': id
     }
     return render(request, template_name, context)
 
@@ -127,7 +128,7 @@ def order_takeaway(request, id):
     context = {
         'title': "Take Away",
         'form': form,
-        'id_order':id
+        'id_order': id
     }
     return render(request, template_name, context)
 
@@ -169,7 +170,7 @@ def order_delivery(request, id):
     context = {
         'title': "Delivery",
         'form': form,
-        'id_order':id
+        'id_order': id
     }
     return render(request, template_name, context)
 
@@ -206,22 +207,22 @@ def add_temp_order_item(request):
     obj.created = datetime.datetime.now()
     obj.save()
 
-    return JsonResponse({'success':True})
+    return JsonResponse({'success': True})
 
 
 def remove_temp_order_item(request):
     id = request.POST['id'] or None
     TempOrderItem.objects.get(id=id).delete()
-    return JsonResponse({'success':True})
+    return JsonResponse({'success': True})
 
 
 def commit_temp_order_items(request):
-    id_order = request.POST['id_order'] or None #order_id
+    id_order = request.POST['id_order'] or None  # order_id
     TempOrderItem.objects.filter(order_id=id_order).update(commit=True)
-    return JsonResponse({'success':True})
+    return JsonResponse({'success': True})
 
 
-def order_complete(request, id): # order Id
+def order_complete(request, id):  # order Id
     temp_items = TempOrderItem.objects.filter(order_id=id)
 
     order_obj = Order.objects.get(id=id)
@@ -232,7 +233,6 @@ def order_complete(request, id): # order Id
         table = Table.objects.get(order=order_obj)
         table.is_reserved = False
         table.save()
-
 
     for temp_item in temp_items:
         item, created = OrderItem.objects.get_or_create(
@@ -246,8 +246,15 @@ def order_complete(request, id): # order Id
         item.creator = request.user
         item.created = datetime.datetime.now()
         item.save()
-
     temp_items.delete()
+
+    ob = OutBox()
+    ob.message = 'Thank you for choosing us :)'
+    ob.mobile = order_obj.customer.mobile
+    ob.status = False
+    ob.creator = request.user
+    ob.created = datetime.datetime.now()
+    ob.save()
 
     return redirect(f'/order/{order_obj.id}/invoice')
 
@@ -260,9 +267,8 @@ def order_invoice(request, id):
     template_name = 'order/invoice.html'
     context = {
         'title': "Invoice",
-        'list':queryset,
+        'list': queryset,
         'total_bill': total_bill,
         'order': order,
     }
     return render(request, template_name, context)
-

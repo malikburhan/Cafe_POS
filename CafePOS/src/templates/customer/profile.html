@@ -12,7 +12,7 @@
     <!-- ============ Body content start ============= -->
     <div class="main-content">
         <div class="breadcrumb">
-            <h1>{{ profile.name }}</h1>
+            <h1>{{ profile.name | capfirst }}</h1>
             <ul>
                 <li>Profile</li>
             </ul>
@@ -20,13 +20,13 @@
         <div class="separator-breadcrumb border-top"></div>
         <div class="card user-profile o-hidden mb-4">
             <div class="card-header">
-                <p class="m-0 text-24">{{ profile.name }}</p>
+                <p class="m-0 text-24">{{ profile.name | capfirst }} <small>({{ orders }})</small></p>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4 col-6">
                         <div class="mb-4">
-                            <p class="text-primary mb-1"><i class="i-Checked-User text-16 mr-1"></i> Name</p><span>{{ profile.name }}</span>
+                            <p class="text-primary mb-1"><i class="i-Checked-User text-16 mr-1"></i> Name</p><span>{{ profile.name | capfirst }}</span>
                         </div>
                     </div>
                     <div class="col-md-4 col-6">
@@ -41,27 +41,6 @@
                     </div>
                 </div>
                 <hr />
-                <h4>Other Info</h4>
-                <div class="row">
-                    <div class="col-md-2 col-sm-4 col-6 text-center"><i class="i-Plane text-32 text-primary"></i>
-                        <p class="text-16 mt-1">Travelling</p>
-                    </div>
-                    <div class="col-md-2 col-sm-4 col-6 text-center"><i class="i-Camera text-32 text-primary"></i>
-                        <p class="text-16 mt-1">Photography</p>
-                    </div>
-                    <div class="col-md-2 col-sm-4 col-6 text-center"><i class="i-Car-3 text-32 text-primary"></i>
-                        <p class="text-16 mt-1">Driving</p>
-                    </div>
-                    <div class="col-md-2 col-sm-4 col-6 text-center"><i class="i-Gamepad-2 text-32 text-primary"></i>
-                        <p class="text-16 mt-1">Gaming</p>
-                    </div>
-                    <div class="col-md-2 col-sm-4 col-6 text-center"><i class="i-Music-Note-2 text-32 text-primary"></i>
-                        <p class="text-16 mt-1">Music</p>
-                    </div>
-                    <div class="col-md-2 col-sm-4 col-6 text-center"><i class="i-Shopping-Bag text-32 text-primary"></i>
-                        <p class="text-16 mt-1">Shopping</p>
-                    </div>
-                </div>
             </div>
         </div><!-- end of main-content -->
     </div>

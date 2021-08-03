@@ -41,7 +41,7 @@
                                     <tr>
                                         <th scope="row">{{ forloop.counter }}</th>
                                         <td>{{ order.ordertype }}</td>
-                                        <td>{{ order.customer.name }}</td>
+                                        <td style="text-decoration: underline;" onclick="window.open('{% url 'customer:profile' order.customer.id %}', '_blank')">{{ order.customer.name }}</td>
                                         <td>{{ order.table_number }}</td>
                                         {% if order.complete == True %}
                                             <td><span class="badge badge-success">Completed</span></td>
