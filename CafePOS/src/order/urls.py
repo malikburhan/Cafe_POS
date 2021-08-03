@@ -22,6 +22,4 @@ urlpatterns = [
     path('<str:id>/complete', views.order_complete, name='order_complete'),
     path('<str:id>/invoice', views.order_invoice, name='invoice'),
 
-    path('table', views.order_list, name='table'),
-
 ]
